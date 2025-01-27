@@ -1,0 +1,1 @@
+A simple Notes taking app made using C++.
