@@ -32,6 +32,6 @@ add_executable(byte_notes
 target_link_libraries(byte_notes imgui OpenGL::GL glfw)
 
 # add all include directories here
-target_include_directories(imgui PUBLIC ${DEPS_DIR}/imgui ${DEPS_DIR}/imgui/backends)
+target_include_directories(imgui PUBLIC ${DEPS_DIR}/imgui ${DEPS_DIR}/imgui/backends ${DEPS_DIR}/glfw/include)
 target_include_directories(byte_notes PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(byte_notes PUBLIC ${DEPS_DIR}/glad/include)
