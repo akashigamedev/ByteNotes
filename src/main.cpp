@@ -7,7 +7,7 @@
 
 int main()
 {
-  Application app(800, 600, "Aurora_Engine");
+  Application app(800, 600, "ByteNotes");
 
   // ImGUI Configuration
   IMGUI_CHECKVERSION();
@@ -26,6 +26,8 @@ int main()
   {
     app.Run([&]
             {
+      ImGuiStyle& style = ImGui::GetStyle();
+      style.WindowRounding = 10.0f;
       // Start new ImGui frame
       ImGui_ImplOpenGL3_NewFrame();
       ImGui_ImplGlfw_NewFrame();
