@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <application.h>
+#include <frontend/ui.h>
 
 int main()
 {
@@ -26,24 +27,13 @@ int main()
   {
     app.Run([&]
             {
-      ImGuiStyle& style = ImGui::GetStyle();
-      style.WindowRounding = 10.0f;
       // Start new ImGui frame
       ImGui_ImplOpenGL3_NewFrame();
       ImGui_ImplGlfw_NewFrame();
       ImGui::NewFrame();
 
       // UI Stuff Here
-      ImGui::Begin("Hello ImGui!");
-      ImGui::Text("This is a simple example of ImGui.");
-      static char inputText[200] = "";
-      ImGui::InputText("Input Text", inputText, IM_ARRAYSIZE(inputText));
-
-      if(ImGui::Button("Click Me"))
-      {
-        std::cout << "Button Clicked! Text: " << inputText << std::endl;
-      }
-      ImGui::End(); // End of UI Stuff
+      ImGui::ShowDemoWindow();
 
       //Rendering
       ImGui::Render(); // Render all UI Elements on screen
