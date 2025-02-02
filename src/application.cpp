@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <application.h>
+#include <memory>
 
 Application::Application(int width, int height, const std::string& name)
 {
@@ -18,7 +19,7 @@ Application::~Application()
 
 GLFWwindow* Application::GetWindow()
 {
-  return this->window;
+  return window.get();
 }
 
 
@@ -32,9 +33,9 @@ void Application::InitGLFW()
 
 void Application::InitWindow(int width, int height, const std::string& name)
 {
-  this->window = glfwCreateWindow(width, height, name.c_str(), NULL, NULL);
-  CheckAndExit(window, "Failed to initialize window!"); 
-  glfwMakeContextCurrent(window);
+  window = std::shared_ptr<GLFWwindow>(glfwCreateWindow(width, height, name.c_str(), NULL, NULL), glfwDestroyWindow);
+  CheckAndExit(window.get(), "Failed to initialize window!"); 
+  glfwMakeContextCurrent(window.get());
 }
 
 void Application::InitGlad()
@@ -46,7 +47,7 @@ void Application::Exit()
 {
   if(window != NULL)
   {
-    glfwDestroyWindow(window);
+    glfwDestroyWindow(window.get());
   }
   glfwTerminate();
   std::exit(EXIT_SUCCESS);
@@ -63,13 +64,13 @@ void Application::CheckAndExit(bool condition, const std::string& msg)
 
 bool Application::IsActive()
 {
-  return !glfwWindowShouldClose(this->window);
+  return !glfwWindowShouldClose(window.get());
 }
 
 void Application::Run(const std::function<void()> &callback)
 {
   glfwPollEvents();
   callback();
-  glfwSwapBuffers(this->window);
+  glfwSwapBuffers(window.get());
 }
 

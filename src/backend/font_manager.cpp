@@ -21,11 +21,15 @@ void BN::FontManager::LoadDefaultFont()
   static const ImWchar lucide_icon_ranges[] = { ICON_MIN_LC, ICON_MAX_16_LC , 0 };
 
   this->fonts[FontType::Ubuntu_Regular_16] = std::unique_ptr<ImFont>(io.Fonts->AddFontFromFileTTF(ubuntu_regular_path.c_str(), 16.0f));
+  io.Fonts->AddFontFromFileTTF(lucide_icon_path.c_str(),    16.0f, &lucide_icon_config, lucide_icon_ranges);
   this->fonts[FontType::Ubuntu_Regular_18] = std::unique_ptr<ImFont>(io.Fonts->AddFontFromFileTTF(ubuntu_regular_path.c_str(), 18.0f));
+  io.Fonts->AddFontFromFileTTF(lucide_icon_path.c_str(),    18.0f, &lucide_icon_config, lucide_icon_ranges);
   this->fonts[FontType::Ubuntu_Bold_16]    = std::unique_ptr<ImFont>(io.Fonts->AddFontFromFileTTF(ubuntu_bold_path.c_str(),    16.0f));
+  io.Fonts->AddFontFromFileTTF(lucide_icon_path.c_str(),    16.0f, &lucide_icon_config, lucide_icon_ranges);
   this->fonts[FontType::Ubuntu_Bold_18]    = std::unique_ptr<ImFont>(io.Fonts->AddFontFromFileTTF(ubuntu_bold_path.c_str(),    18.0f));
+  io.Fonts->AddFontFromFileTTF(lucide_icon_path.c_str(),    18.0f, &lucide_icon_config, lucide_icon_ranges);
   this->fonts[FontType::Ubuntu_Bold_32]    = std::unique_ptr<ImFont>(io.Fonts->AddFontFromFileTTF(ubuntu_bold_path.c_str(),    32.0f));
-  this->fonts[FontType::Lucide_Icon_16]    = std::unique_ptr<ImFont>(io.Fonts->AddFontFromFileTTF(lucide_icon_path.c_str(),    16.0f, &lucide_icon_config, lucide_icon_ranges));
+  io.Fonts->AddFontFromFileTTF(lucide_icon_path.c_str(),    32.0f, &lucide_icon_config, lucide_icon_ranges);
  
   this->io.Fonts->Build();
 }

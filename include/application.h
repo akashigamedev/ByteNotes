@@ -3,11 +3,13 @@
 #include<string>
 #include <GLFW/glfw3.h>
 #include <functional>
+#include <memory>
+
 class Application
 {
 
 public:
-  GLFWwindow *window;
+  std::shared_ptr<GLFWwindow> window;
   Application(int width, int height, const std::string& name);
   ~Application();
   GLFWwindow* GetWindow();
