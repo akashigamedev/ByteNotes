@@ -1,7 +1,8 @@
 #pragma once
 
-namespace BYTENOTES_UI
+#include "font_manager.h"
+namespace BN_UI
 {
-    void ShowNodeEditor();
-    void ShowNotesList();
+    void ShowNodeEditor(const BN::FontManager&);
+    void ShowNotesList(const BN::FontManager&);
 }
