@@ -5,6 +5,8 @@
 #include <iostream>
 #include <application.h>
 #include <frontend/ui.h>
+#include <backend/font_manager.h>
+#include <frontend/style.h>
 
 int main()
 {
@@ -13,12 +15,10 @@ int main()
   // ImGUI Configuration
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
-  ImGuiIO &io = ImGui::GetIO();
-  io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-  
-  // Dark Theme UI
-  ImGui::StyleColorsDark();
+  BN::FontManager font_manager;
+  font_manager.LoadDefaultFont();
 
+  BN_UI::SetStyleCatppuccin();
   // Initialize ImGui With OpenGL
   ImGui_ImplGlfw_InitForOpenGL(app.GetWindow(), true);
   ImGui_ImplOpenGL3_Init("#version 330");
@@ -33,7 +33,10 @@ int main()
       ImGui::NewFrame();
 
       // UI Stuff Here
-      ImGui::ShowDemoWindow();
+     BN_UI::ShowNotesList(font_manager);
+     BN_UI::ShowNodeEditor(font_manager);
+     
+     
 
       //Rendering
       ImGui::Render(); // Render all UI Elements on screen

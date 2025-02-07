@@ -10,6 +10,7 @@ void BN_UI::SetStyleCatppuccin()
   style.ScrollbarRounding = 0;
   style.ItemSpacing = ImVec2(0, 0);
   style.ChildBorderSize = 1.0f;
+  
 
   style.Colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
   style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.79f, 0.82f, 0.96f, 1.0f);

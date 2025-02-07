@@ -6,7 +6,8 @@
 #include <iostream>
 #include <ui.h>
 
-void Titlebar(const BN::FontManager &font_manager) {
+void Titlebar(const BN::FontManager &font_manager)
+{
 
   ImGui::PushFont(font_manager.GetFont(BN::FontType::Ubuntu_Bold_18));
 
@@ -14,7 +15,8 @@ void Titlebar(const BN::FontManager &font_manager) {
       ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar |
       ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoResize;
 
-  if (ImGui::BeginChild("Notes_Menu_Title", ImVec2(300.0f, ImGui::GetTextLineHeight() + 20.0f), 0, flags)) {
+  if (ImGui::BeginChild("Notes_Menu_Title", ImVec2(300.0f, ImGui::GetTextLineHeight() + 20.0f), 0, flags))
+  {
 
     ImGui::SetCursorPosY(8.0f);
     ImGui::Dummy(ImVec2(8.0f, 0));
@@ -30,7 +32,8 @@ void Titlebar(const BN::FontManager &font_manager) {
   ImGui::EndChild();
 }
 
-void Searchbar(const BN::FontManager &font_manager) {
+void Searchbar(const BN::FontManager &font_manager)
+{
   ImGui::PushFont(font_manager.GetFont(BN::FontType::Ubuntu_Regular_16));
 
   unsigned int flags =
@@ -39,7 +42,8 @@ void Searchbar(const BN::FontManager &font_manager) {
 
   ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.21f, 0.22f, 0.30f, 1.0f));
   ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.21f, 0.22f, 0.30f, 1.0f));
-  if (ImGui::BeginChild("Searchbar", ImVec2(300.0f, ImGui::GetTextLineHeight() + 20.0f), ImGuiChildFlags_Borders, flags)) {
+  if (ImGui::BeginChild("Searchbar", ImVec2(300.0f, ImGui::GetTextLineHeight() + 20.0f), ImGuiChildFlags_Borders, flags))
+  {
 
     ImGui::SetCursorPosY(8.0f);
     ImGui::Dummy(ImVec2(8.0f, 0));
@@ -48,7 +52,8 @@ void Searchbar(const BN::FontManager &font_manager) {
     ImGui::SameLine(0.0f, 16.0f);
 
     static char search_text[100] = "";
-    if (ImGui::InputTextWithHint("##search_input_text", "Search for notes and tags", search_text, sizeof(search_text))) {
+    if (ImGui::InputTextWithHint("##search_input_text", "Search for notes and tags", search_text, sizeof(search_text)))
+    {
       // call backend function here later
     }
   }
@@ -57,48 +62,52 @@ void Searchbar(const BN::FontManager &font_manager) {
   ImGui::PopStyleColor(2);
 }
 
-
 struct Note
 {
   std::string title;
   std::string description;
 };
 
-void NotesList(const BN::FontManager &font_manager) {
+void NotesList(const BN::FontManager &font_manager)
+{
   static std::vector<struct Note> notes = {
-  {"Favourite Foods", "Pizza (Italy) - A flatbread topped with sauce, cheese, ..."},
-  {"Trip to Goa", "This summer in 2024, We went on a vacation in GOA. It was  .."},
-  {"Akash’s Birthday Party", "Akash’s birthday party was awesome, everyone had fun..."},
-  {"Game night 2024", "Thursday, 21 Jan 2024, We had a game night with all of my fri.."}
-  };
+      {"Favourite Foods", "Pizza (Italy) - A flatbread topped with sauce, cheese, ..."},
+      {"Trip to Goa", "This summer in 2024, We went on a vacation in GOA. It was  .."},
+      {"Akash’s Birthday Party", "Akash’s birthday party was awesome, everyone had fun..."},
+      {"Game night 2024", "Thursday, 21 Jan 2024, We had a game night with all of my fri.."}};
 
-  for(const auto& note : notes)
+  for (const auto &note : notes)
   {
     ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.14f, 0.15f, 0.22f, 1.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 10.0f);
     ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + 12.0f, ImGui::GetCursorPosY() + 12.0f));
-    if(ImGui::BeginChild(note.title.c_str(), ImVec2(268.0f, 100.0f), 0, ImGuiWindowFlags_AlwaysUseWindowPadding))
+    if (ImGui::BeginChild(note.title.c_str(), ImVec2(268.0f, 100.0f), 0, ImGuiWindowFlags_AlwaysUseWindowPadding))
     {
       ImGui::SetCursorPos(ImVec2(16, 16));
       ImGui::TextWrapped("%s", note.title.c_str());
-      ImGui::SetCursorPos(ImVec2(16, ImGui::GetCursorPosY()+16));
+      ImGui::SetCursorPos(ImVec2(16, ImGui::GetCursorPosY() + 16));
       ImGui::TextWrapped("%s", note.description.c_str());
-      
+
       ImGui::SetCursorPos(ImVec2(0, 0));
-      if(ImGui::InvisibleButton(note.title.c_str(), ImVec2(268.0f, 100.0f)))
+      if (ImGui::InvisibleButton(note.title.c_str(), ImVec2(268.0f, 100.0f)))
       {
-        std::cout << note.title << "\n" << note.description << std::endl;
+        std::cout << note.title << "\n"
+                  << note.description << std::endl;
       }
-     
     }
     ImGui::EndChild();
     ImGui::PopStyleVar();
     ImGui::PopStyleColor();
+    
   }
+  ImGui::SetCursorPosY(ImGui::GetWindowHeight() - 78.0f);
+ImGui::Separator();
+
 }
 
-void BN_UI::ShowNodeEditor(const BN::FontManager& font_manager) {
-  
+void BN_UI::ShowNodeEditor(const BN::FontManager &font_manager)
+{
+
   unsigned int flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar |
                        ImGuiWindowFlags_NoCollapse |
                        ImGuiWindowFlags_NoDecoration;
@@ -106,34 +115,62 @@ void BN_UI::ShowNodeEditor(const BN::FontManager& font_manager) {
   ImVec2 display_size = ImGui::GetIO().DisplaySize;
 
   ImGui::SetNextWindowPos(ImVec2(300.0f, 0.0f));
-  ImGui::SetNextWindowSize(ImVec2(display_size.x-300.0f, display_size.y));
-  if(ImGui::Begin("##NodeEditor", NULL, flags))
+  ImGui::SetNextWindowSize(ImVec2(display_size.x - 300.0f, display_size.y));
+  if (ImGui::Begin("##NodeEditor", NULL, flags))
   {
-    if(ImGui::BeginChild("##Editor_Menu", ImVec2(-1.0f, ImGui::GetTextLineHeight() + 20.0f), ImGuiChildFlags_Borders))
+    if (ImGui::BeginChild("##Editor_Menu", ImVec2(-1.0f, ImGui::GetTextLineHeight() + 20.0f), ImGuiChildFlags_Borders))
     {
       ImGui::PushFont(font_manager.GetFont(BN::FontType::Ubuntu_Regular_18));
       ImGui::SetCursorPos(ImVec2(24.0f, 8.0f));
-      if(ImGui::Button(ICON_LC_TRASH_2))
+      if (ImGui::Button(ICON_LC_TRASH_2))
       {
-
       }
-      ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::CalcTextSize(ICON_LC_X).x-24.0f);
-      if(ImGui::Button(ICON_LC_X))
+      ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::CalcTextSize(ICON_LC_X).x - 24.0f);
+      if (ImGui::Button(ICON_LC_X))
       {
-
       }
       ImGui::PopFont();
-    } 
+    }
     ImGui::EndChild();
-  
 
+    
+    if (ImGui::BeginChild("##NoteTitleWindow", ImVec2(-1.0f, ImGui::GetTextLineHeight() + 60.0f),ImGuiWindowFlags_NoScrollbar))
+    {
+      ImGui::PushFont(font_manager.GetFont(BN::FontType::Ubuntu_Bold_32));
+ImGui::Indent(40);
+ImGui::Dummy(ImVec2(0, 30));
+      ImGui::Text("Favourite Foods");
+      ImGui::PopFont();
+      ImGui::Unindent(40);
+    }
+    ImGui::EndChild();
+    
+
+    ImGui::PushFont(font_manager.GetFont(BN::FontType::Ubuntu_Regular_18));
+    if (ImGui::BeginChild("##NoteDescriptionWindow", ImVec2(-1.0f, display_size.y-180.0f)))
+    {
+      static char multiLineInput[1000] = "";
+     
+      ImGui::Indent(40);
+      ImGui::Dummy(ImVec2(0, 50));
+      if (ImGui::InputTextMultiline("Enter your message", multiLineInput, IM_ARRAYSIZE(multiLineInput), ImVec2(-1.0f, -1.0f)))
+      ImGui::Unindent(40);
+      {
+
+      }
+      
+    }
+    ImGui::EndChild();
+    ImGui::PopFont();
+    ImGui::Separator();
   }
   ImGui::End();
 }
 
-void BN_UI::ShowNotesList(const BN::FontManager &font_manager) {
+void BN_UI::ShowNotesList(const BN::FontManager &font_manager)
+{
   float max_y = ImGui::GetIO().DisplaySize.y;
-  
+
   ImGui::SetNextWindowPos(ImVec2(0, 0));
   ImGui::SetNextWindowSizeConstraints(ImVec2(300.0f, max_y), ImVec2(400.0f, max_y));
 
@@ -141,7 +178,8 @@ void BN_UI::ShowNotesList(const BN::FontManager &font_manager) {
                        ImGuiWindowFlags_NoCollapse |
                        ImGuiWindowFlags_NoDecoration;
 
-  if (ImGui::Begin("##Notes_List", NULL, flags)) {
+  if (ImGui::Begin("##Notes_List", NULL, flags))
+  {
     Titlebar(font_manager);
     Searchbar(font_manager);
     NotesList(font_manager);
