@@ -110,7 +110,7 @@ void BN_UI::ShowNodeEditor(const BN::FontManager &font_manager)
 
   unsigned int flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar |
                        ImGuiWindowFlags_NoCollapse |
-                       ImGuiWindowFlags_NoDecoration;
+                       ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize;
 
   ImVec2 display_size = ImGui::GetIO().DisplaySize;
 
@@ -134,26 +134,34 @@ void BN_UI::ShowNodeEditor(const BN::FontManager &font_manager)
     ImGui::EndChild();
 
     
-    if (ImGui::BeginChild("##NoteTitleWindow", ImVec2(-1.0f, ImGui::GetTextLineHeight() + 60.0f),ImGuiWindowFlags_NoScrollbar))
+    if (ImGui::BeginChild("##NoteTitleWindow", ImVec2(-1.0f, ImGui::GetTextLineHeight() + 60.0f), ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize))
+{
+    ImGui::PushFont(font_manager.GetFont(BN::FontType::Ubuntu_Bold_32));
+    
+    static char Input[1000] = "";
+    ImGui::Indent(40);
+    ImGui::Dummy(ImVec2(0, 30));
+
+
+    if (ImGui::InputTextWithHint("##hello", "Enter note title...", Input, sizeof(Input), ImGuiWindowFlags_NoResize))
     {
-      ImGui::PushFont(font_manager.GetFont(BN::FontType::Ubuntu_Bold_32));
-ImGui::Indent(40);
-ImGui::Dummy(ImVec2(0, 30));
-      ImGui::Text("Favourite Foods");
-      ImGui::PopFont();
-      ImGui::Unindent(40);
+        
     }
-    ImGui::EndChild();
+
+    ImGui::PopFont();
+    ImGui::Unindent(40);
+}
+ImGui::EndChild();
     
 
     ImGui::PushFont(font_manager.GetFont(BN::FontType::Ubuntu_Regular_18));
-    if (ImGui::BeginChild("##NoteDescriptionWindow", ImVec2(-1.0f, display_size.y-180.0f)))
+    if (ImGui::BeginChild("##NoteDescriptionWindow", ImVec2(-1.0f, display_size.y-180.0f), ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove))
     {
       static char multiLineInput[1000] = "";
      
       ImGui::Indent(40);
       ImGui::Dummy(ImVec2(0, 50));
-      if (ImGui::InputTextMultiline("Enter your message", multiLineInput, IM_ARRAYSIZE(multiLineInput), ImVec2(-1.0f, -1.0f)))
+      if (ImGui::InputTextMultiline("Enter your message", multiLineInput, IM_ARRAYSIZE(multiLineInput), ImVec2(-1.0f, -1.0f), ImGuiWindowFlags_NoResize))
       ImGui::Unindent(40);
       {
 
