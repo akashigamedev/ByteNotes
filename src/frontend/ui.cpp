@@ -98,11 +98,7 @@ void NotesList(const BN::FontManager &font_manager)
     ImGui::EndChild();
     ImGui::PopStyleVar();
     ImGui::PopStyleColor();
-    
   }
-  ImGui::SetCursorPosY(ImGui::GetWindowHeight() - 78.0f);
-ImGui::Separator();
-
 }
 
 void BN_UI::ShowNodeEditor(const BN::FontManager &font_manager)
@@ -116,63 +112,56 @@ void BN_UI::ShowNodeEditor(const BN::FontManager &font_manager)
 
   ImGui::SetNextWindowPos(ImVec2(300.0f, 0.0f));
   ImGui::SetNextWindowSize(ImVec2(display_size.x - 300.0f, display_size.y));
+  // Main Right Panel
   if (ImGui::Begin("##NodeEditor", NULL, flags))
   {
+    // Top Editor Menu with Icon Buttons
     if (ImGui::BeginChild("##Editor_Menu", ImVec2(-1.0f, ImGui::GetTextLineHeight() + 20.0f), ImGuiChildFlags_Borders))
     {
       ImGui::PushFont(font_manager.GetFont(BN::FontType::Ubuntu_Regular_18));
       ImGui::SetCursorPos(ImVec2(24.0f, 8.0f));
       if (ImGui::Button(ICON_LC_TRASH_2))
-      {
+      { // handle deletion of currently open note
       }
       ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::CalcTextSize(ICON_LC_X).x - 24.0f);
       if (ImGui::Button(ICON_LC_X))
-      {
+      { // close currently open note in editor (clear editor)
       }
       ImGui::PopFont();
     }
     ImGui::EndChild();
 
-    
-    if (ImGui::BeginChild("##NoteTitleWindow", ImVec2(-1.0f, ImGui::GetTextLineHeight() + 60.0f), ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize))
-{
-    ImGui::PushFont(font_manager.GetFont(BN::FontType::Ubuntu_Bold_32));
-    
-    static char Input[1000] = "";
-    ImGui::Indent(40);
-    ImGui::Dummy(ImVec2(0, 30));
-
-
-    if (ImGui::InputTextWithHint("##hello", "Enter note title...", Input, sizeof(Input), ImGuiWindowFlags_NoResize))
+    // Title and Description Editing Panel
+    if (ImGui::BeginChild("##Editor_Panel", ImVec2(-1.0f, -1.0f)))
     {
-        
-    }
+      static char title[100] = "";
+      static char description[10000] = "";
 
-    ImGui::PopFont();
-    ImGui::Unindent(40);
-}
-ImGui::EndChild();
-    
-
-    ImGui::PushFont(font_manager.GetFont(BN::FontType::Ubuntu_Regular_18));
-    if (ImGui::BeginChild("##NoteDescriptionWindow", ImVec2(-1.0f, display_size.y-180.0f), ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove))
-    {
-      static char multiLineInput[1000] = "";
-     
-      ImGui::Indent(40);
-      ImGui::Dummy(ImVec2(0, 50));
-      if (ImGui::InputTextMultiline("Enter your message", multiLineInput, IM_ARRAYSIZE(multiLineInput), ImVec2(-1.0f, -1.0f), ImGuiWindowFlags_NoResize))
-      ImGui::Unindent(40);
+      // TITLE: InputTextWithHint()
+      ImGui::SetCursorPos(ImVec2(16, 16));
+      ImGui::PushFont(font_manager.GetFont(BN::FontType::Ubuntu_Bold_32));
+      if(ImGui::InputTextWithHint("##Editor_Title", "Heading", title, sizeof(title), ImGuiInputTextFlags_EnterReturnsTrue))
       {
-
+        // move cursor to description input on enter key press for better user experience
+        ImGui::SetKeyboardFocusHere(1); 
       }
-      
-    }
-    ImGui::EndChild();
-    ImGui::PopFont();
-    ImGui::Separator();
-  }
-  ImGui::End();
+      ImGui::PopFont();
+
+      // DESCRIPTION: InputTextMultiline() with manual hint implementation
+      float description_input_pos = ImGui::GetCursorPosY() + 16.0f;
+      ImGui::SetCursorPos(ImVec2(16, description_input_pos));
+      ImGui::PushFont(font_manager.GetFont(BN::FontType::Ubuntu_Regular_18));
+      ImGui::InputTextMultiline("##Editor_Desc", description, sizeof(description), ImVec2(-1.0f, -1.0f));
+
+      // show placeholder if description is empty
+      if (*description == 0)
+      {
+        ImGui::SetCursorPos(ImVec2(20, description_input_pos));
+        ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.6f, 1.0f), "Write your note here");
+      }
+      ImGui::PopFont();
+    } ImGui::EndChild();
+  } ImGui::End();
 }
 
 void BN_UI::ShowNotesList(const BN::FontManager &font_manager)
