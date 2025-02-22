@@ -6,6 +6,13 @@
 #include <iostream>
 #include <ui.h>
 
+struct Note
+{
+  std::string title;
+  std::string description;
+};
+
+
 void Titlebar(const BN::FontManager &font_manager)
 {
 
@@ -26,6 +33,8 @@ void Titlebar(const BN::FontManager &font_manager)
     ImGui::Text("All Notes");
     ImGui::SameLine(0, 75.0f);
     ImGui::Button(ICON_LC_SQUARE_PLUS);
+      
+    
     ImGui::Dummy(ImVec2(0, 0));
   }
   ImGui::PopFont();
@@ -62,11 +71,7 @@ void Searchbar(const BN::FontManager &font_manager)
   ImGui::PopStyleColor(2);
 }
 
-struct Note
-{
-  std::string title;
-  std::string description;
-};
+
 
 void NotesList(const BN::FontManager &font_manager)
 {
