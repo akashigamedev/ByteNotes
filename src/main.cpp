@@ -2,9 +2,9 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
 #include <application.h>
 #include <frontend/ui.h>
+#include <backend/bn.h>
 #include <backend/font_manager.h>
 #include <frontend/style.h>
 
@@ -23,6 +23,9 @@ int main()
   ImGui_ImplGlfw_InitForOpenGL(app.GetWindow(), true);
   ImGui_ImplOpenGL3_Init("#version 330");
 
+
+  BN::LoadNotesInMap();
+
   while (app.IsActive())
   {
     app.Run([&]
@@ -34,9 +37,7 @@ int main()
 
       // UI Stuff Here
      BN_UI::ShowNotesList(font_manager);
-     BN_UI::ShowNodeEditor(font_manager);
-     
-     
+     BN_UI::ShowNodeEditor(font_manager);     
 
       //Rendering
       ImGui::Render(); // Render all UI Elements on screen
